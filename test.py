@@ -14,44 +14,44 @@ class TestApp(unittest.TestCase):
 #Successful user registration
     def test_register_user_success(self):
         response = self.client.post('/users', json={
-            "username": "anya123",
+            "username": "johnDoe123",
             "password": "Password1",
-            "email": "804anya@gmail.com",
-            "dob": "2004-04-08",
+            "email": "example@example.com",
+            "dob": "2000-10-01",
             "credit_card": "1234567890123456"
         })
         self.assertEqual(response.status_code, 201)
 #Unsuccessful user registration: underage
     def test_register_user_underage(self):
         response = self.client.post('/users', json={
-            "username": "anya123",
+            "username": "johnDoe123",
             "password": "Password1",
-            "email": "804anya@gmail.com",
+            "email": "example@example.com",
             "dob": "2010-01-01"
         })
         self.assertEqual(response.status_code, 403)
 #Unsuccessful user registration: username already exists
     def test_register_user_username_exists(self):
         self.client.post('/users', json={
-            "username": "anya123",
+            "username": "johnDoe123",
             "password": "Password1",
-            "email": "804anya@gmail.com",
-            "dob": "2004-04-08"
+            "email": "example@example.com",
+            "dob": "2000-10-01"
         })
         response = self.client.post('/users', json={
-            "username": "anya123",
+            "username": "johnDoe123",
             "password": "Password1",
-            "email": "804anya@gmail.com",
-            "dob": "2004-04-08"
+            "email": "example@example.com",
+            "dob": "2000-10-01"
         })
         self.assertEqual(response.status_code, 409)
 #Successful payment 
     def test_process_payment_success(self):
         self.client.post('/users', json={
-            "username": "anya123",
+            "username": "johnDoe123",
             "password": "Password1",
-            "email": "804anya@gmail.com",
-            "dob": "2004-04-08",
+            "email": "example@example.com",
+            "dob": "2000-10-01",
             "credit_card": "1234567890123456"
         })
         response = self.client.post('/payments', json={
@@ -69,10 +69,10 @@ class TestApp(unittest.TestCase):
 #Successful user filtering: Credit card = Yes
     def test_get_users_with_credit_card_filter(self):
         self.client.post('/users', json={
-            "username": "anya123",
+            "username": "johnDoe123",
             "password": "Password1",
-            "email": "804anya@gmail.com",
-            "dob": "2004-04-08",
+            "email": "example@example.com",
+            "dob": "2000-10-01",
             "credit_card": "1234567890123456"
         })
         response = self.client.get('/users?CreditCard=Yes')
@@ -81,14 +81,14 @@ class TestApp(unittest.TestCase):
 #Successful user filtering: Credit card = No
     def test_get_users_without_credit_card_filter(self):
         self.client.post('/users', json={
-            "username": "anya111",
+            "username": "johnDoe111",
             "password": "Password1",
-            "email": "804anya@gmail.com",
-            "dob": "2004-04-08"
+            "email": "example@example.com",
+            "dob": "2000-10-01"
         })
         response = self.client.get('/users?CreditCard=No')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('anya111', str(response.data))
+        self.assertIn('johnDoe111', str(response.data))
 
 
 if __name__ == "__main__":
