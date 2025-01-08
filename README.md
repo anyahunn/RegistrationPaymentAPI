@@ -167,6 +167,4 @@ OK
 
 ---
 
-### License
 
-Include license details if applicable.
